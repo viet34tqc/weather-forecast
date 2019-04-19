@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 
 class ForecastResult extends Component {
+  handleChange = e => {
+    e.preventDefault();
+    const day = e.target.value;
+    this.props.getDay(day);
+  };
   render() {
     const {
       temperature,
@@ -11,18 +16,34 @@ class ForecastResult extends Component {
     } = this.props.weatherInfo;
     return (
       <div className="weather-info">
-        <div className="weather__city">{city}</div>
-        <div className="weather__temp">{temperature}</div>
-        <div className="weather__icon">
-          {icon && (
-            <img
-              src={`http://openweathermap.org/img/w/${icon}.png`}
-              alt="icon"
-            />
-          )}
+        <form className="info__header">
+          <select name="day" onChange={this.handleChange}>
+            <option value="1">Next 1 day</option>
+            <option value="2">Next 2 day</option>
+            <option value="3">Next 3 day</option>
+            <option value="4">Next 4 day</option>
+          </select>
+          <div>
+            <label htmlFor="farenheit">F</label>
+            <input type="radio" name="temperature_type" id="farenheit" />
+            <label htmlFor="celcius">C</label>
+            <input type="radio" name="temperature_type" id="celcius" />
+          </div>
+        </form>
+        <div className="info__content">
+          <div className="weather__city">{city}</div>
+          <div className="weather__temp">{temperature}</div>
+          <div className="weather__icon">
+            {icon && (
+              <img
+                src={`http://openweathermap.org/img/w/${icon}.png`}
+                alt="icon"
+              />
+            )}
+          </div>
+          <div className="weather__humidity">{humidity}</div>
+          <div className="weather__desc">{description}</div>
         </div>
-        <div className="weather__humidity">{humidity}</div>
-        <div className="weather__desc">{description}</div>
       </div>
     );
   }
