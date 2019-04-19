@@ -24,6 +24,10 @@ export class WeatherForecast extends Component {
     e.preventDefault();
     const city = e.target.elements.city.value;
     const isGetCurrentPosition = e.target.elements.currentPosition.checked;
+    if (!city && !isGetCurrentPosition) {
+      alert("Please enter your city or choose your current location");
+      return;
+    }
     this.url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric`;
     if (isGetCurrentPosition) {
       this.getCurrentPosition();
