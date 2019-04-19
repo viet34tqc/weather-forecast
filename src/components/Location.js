@@ -5,7 +5,7 @@ export class Location extends Component {
     return (
       <form onSubmit={this.props.getWeather}>
         <label htmlFor="city">Enter the city: </label>
-        <input type="text" name="city" id="city" />
+        <input type="text" name="city" id="city"  />
         &nbsp; or &nbsp;
         <label htmlFor="current-postition">Choose current position: </label>
         <input type="checkbox" name="currentPosition" id="current-position" />

@@ -6,6 +6,11 @@ import ForecastResult from "./ForecastResult.js";
 const appid = "8a548118fb12d8549d52d4d6887f9937";
 
 export class WeatherForecast extends Component {
+  constructor(props) {
+    super(props);
+    this.lat = "";
+    this.long = "";
+  }
   state = {
     temperature: "",
     city: "",
@@ -13,12 +18,20 @@ export class WeatherForecast extends Component {
     description: "",
     day: ""
   };
-  getWeather = async e => {
+  getWeather = e => {
     e.preventDefault();
     const city = e.target.elements.city.value;
-    const api_call = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric`
-    );
+    const isGetCurrentPosition = e.target.elements.currentPosition.checked;
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric`;
+    if (isGetCurrentPosition) {
+      this.getCurrentPosition();
+    } else {
+      this.getWeatherData(url);
+    }
+  };
+
+  getWeatherData = async url => {
+    const api_call = await fetch(url);
     const response = await api_call.json();
     if (response) {
       this.todayData = {
@@ -30,6 +43,21 @@ export class WeatherForecast extends Component {
       };
       this.setState(this.todayData);
     }
+  };
+
+  getCurrentPosition = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.getLocation);
+    } else {
+      console.log("Geolocation is not supported");
+    }
+  };
+
+  getLocation = position => {
+    const lat = position.coords.latitude;
+    const long = position.coords.longitude;
+    const url = `http://api.openweathermap.org/data/2.5/weather?&appid=${appid}&lat=${lat}&lon=${long}&units=metric`;
+    this.getWeatherData(url);
   };
 
   componentDidUpdate() {
