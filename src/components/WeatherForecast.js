@@ -21,23 +21,44 @@ export class WeatherForecast extends Component {
     );
     const response = await api_call.json();
     if (response) {
-      this.setState({
+      this.todayData = {
         temperature: response.main.temp,
         city: response.name,
         humidity: response.main.humidity,
         description: response.weather[0].description,
         icon: response.weather[0].icon
-      });
+      };
+      this.setState(this.todayData);
     }
   };
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.root = ReactDOM.findDOMNode(this);
     this.city = this.root.querySelector("#city").value;
   }
 
-  getDay = () => {
-    console.log(this.city);
+  getDay = async day => {
+    const city = this.city;
+    // Nếu là ngày hôm nay thì trả lại dữ liệu đã lấy trước đó.
+    if (day === "0") {
+      this.setState(this.todayData);
+      return;
+    }
+    const api_call = await fetch(
+      `http://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&appid=${appid}&units=metric&cnt=${day}`
+    );
+    const response = await api_call.json();
+    if (response) {
+      const wantedDay = response.list.slice(-1)[0];
+      const wantedDayData = {
+        temperature: wantedDay.temp.day,
+        city: response.city.name,
+        humidity: wantedDay.humidity,
+        description: wantedDay.weather[0].description,
+        icon: wantedDay.weather[0].icon
+      };
+      this.setState(wantedDayData);
+    }
   };
 
   render() {

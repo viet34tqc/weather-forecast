@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 class ForecastResult extends Component {
   handleChange = e => {
-    e.preventDefault();
     const day = e.target.value;
     this.props.getDay(day);
   };
@@ -18,6 +17,7 @@ class ForecastResult extends Component {
       <div className="weather-info">
         <form className="info__header">
           <select name="day" onChange={this.handleChange}>
+            <option value="0">Today</option>
             <option value="1">Next 1 day</option>
             <option value="2">Next 2 day</option>
             <option value="3">Next 3 day</option>
