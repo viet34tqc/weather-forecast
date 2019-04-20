@@ -1,12 +1,32 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
 class ForecastResult extends Component {
+  state = {
+    scale: "celcius"
+  };
+
   handleChange = e => {
     const day = e.target.value;
     this.props.getDay(day);
   };
+
+  handleCelcius = () => {
+    const temperature = this.props.weatherInfo.temperature + "°C";
+    this.weatherTemp.innerHTML = temperature;
+  };
+
+  handleFarenheit = () => {
+    const temperature = this.props.weatherInfo.temperature * 1.8 + 32 + "°F";
+    this.weatherTemp.innerHTML = temperature;
+  };
+
+  componentDidMount() {
+    this.root = ReactDOM.findDOMNode(this);
+    this.weatherTemp = this.root.querySelector(".weather__temp");
+  }
+
   render() {
-    if (!this.props.weatherInfo.temperature) return null;
     const {
       temperature,
       city,
@@ -25,13 +45,27 @@ class ForecastResult extends Component {
             <option value="4">Next 4 day</option>
           </select>
           <div>
-            <span className="scale">°F</span>
-            <span className="scale active">°C</span>
+            <span
+              className={`scale ${
+                this.state.scale === "farenheit" ? "active" : ""
+              }`}
+              onClick={this.handleFarenheit}
+            >
+              °F
+            </span>
+            <span
+              className={`scale ${
+                this.state.scale === "celcius" ? "active" : ""
+              }`}
+              onClick={this.handleCelcius}
+            >
+              °C
+            </span>
           </div>
         </form>
         <div className="info__content">
           <div className="weather__city">{city}</div>
-          <div className="weather__temp">{temperature}</div>
+          <div className="weather__temp">{temperature}°C</div>
           <div className="weather__icon">
             {icon && (
               <img
