@@ -124,10 +124,12 @@ export class WeatherForecast extends Component {
     return (
       <div>
         <Location getWeather={this.getTodayWeather} />
-        <ForecastResult
-          weatherInfo={weatherInfo}
-          getDay={this.getWeatherByDays}
-        />
+        {weatherInfo.temperature && (
+          <ForecastResult
+            weatherInfo={weatherInfo}
+            getDay={this.getWeatherByDays}
+          />
+        )}
       </div>
     );
   }
