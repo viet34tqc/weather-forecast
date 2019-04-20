@@ -25,10 +25,8 @@ class ForecastResult extends Component {
             <option value="4">Next 4 day</option>
           </select>
           <div>
-            <label htmlFor="farenheit">F</label>
-            <input type="radio" name="temperature_type" id="farenheit" />
-            <label htmlFor="celcius">C</label>
-            <input type="radio" name="temperature_type" id="celcius" />
+            <span className="scale">°F</span>
+            <span className="scale active">°C</span>
           </div>
         </form>
         <div className="info__content">

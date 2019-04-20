@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Location from "./Location.js";
 import ForecastResult from "./ForecastResult.js";
+import "./style.css";
 
 const appid = "8a548118fb12d8549d52d4d6887f9937";
 
@@ -46,7 +47,7 @@ export class WeatherForecast extends Component {
     const response = await api_call.json();
     if (response) {
       this.todayData = {
-        temperature: Math.round( response.main.temp ),
+        temperature: Math.round(response.main.temp),
         city: response.name,
         humidity: response.main.humidity,
         description: response.weather[0].description,
@@ -62,7 +63,7 @@ export class WeatherForecast extends Component {
     if (response) {
       const wantedDay = response.list.slice(-1)[0];
       const wantedDayData = {
-        temperature: Math.round( wantedDay.temp.day ),
+        temperature: Math.round(wantedDay.temp.day),
         city: response.city.name,
         humidity: wantedDay.humidity,
         description: wantedDay.weather[0].description,
