@@ -6,6 +6,7 @@ class ForecastResult extends Component {
     this.props.getDay(day);
   };
   render() {
+    if (!this.props.weatherInfo.temperature) return null;
     const {
       temperature,
       city,
